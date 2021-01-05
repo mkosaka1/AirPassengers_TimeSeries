@@ -1,4 +1,5 @@
 # Time-Series Analysis Using Auto ARIMA
+Conducting a Univariate Time-Series analysis to forecast the number of airline passengers (from [Kaggle](https://www.kaggle.com/rakannimer/air-passengers)) and discuss through the traditional ARIMA implementation versus the more efficient, auto_arima way. All code can be found in [Time_Series.ipynb](https://github.com/mkosaka1/AirPassengers_TimeSeries) and all images can be found in the [Images](https://github.com/mkosaka1/AirPassengers_TimeSeries/tree/master/Images) folder.
 
 ## What is Time-Series Analysis?
 One of the key concepts in data science is time-series analysis which involves the process of using a statistical model to predict future values of a time series (i.e. financial prices, weather, COVID-19 positive cases/deaths) based on past results. Some components that might be seen in a time-series analysis are:
@@ -15,3 +16,38 @@ ARIMA is an acronym which stands for Auto Regressive Integrated Moving Average a
 - MA (q): noise between time points is accounted for
 There are three types of ARIMA models, ARIMA, SARIMA, and SARIMAX which differ depending on seasonality and/or use of exogenous variables.
 Pmdarima‘s auto_arima function is extremely useful when building an ARIMA model as it helps us identify the most optimal p,d,q parameters and return a fitted ARIMA model.
+
+**The general steps to implement an ARIMA model:**
+1) Load and prepare data
+2) Check for stationarity (make data stationary if necessary) and determine d value
+3) Create ACF and PACF plots to determine p and q values
+4) Fit ARIMA model
+5) Predict values on test set
+6) Calculate r²
+
+## Traditional Implementation of an ARIMA Model
+Determining *p,d,q* values by conducting a Dickey-Fuller test, and using ACF/PACF plots resulted in a r^2 value of -1.52. These results indicate that our model does not follow the trend of the data very well.
+
+![test](https://github.com/mkosaka1/AirPassengers_TimeSeries/blob/master/Images/FirstPredictions.jpg)
+
+## Using pmdarima for Auto ARIMA model
+In the previous method, checking for stationarity, making data stationary if necessary, and determining the values of p and q using the ACF/PACF plots can be time-consuming and less efficient. Using pmdarima’s auto_arima() function makes this task easier for us by eliminating steps 2 and 3 for implementing an ARIMA model. Let’s try it with the current dataset.
+
+```
+ model=auto_arima(train,start_p=0,d=1,start_q=0,
+          max_p=5,max_d=5,max_q=5, start_P=0,
+          D=1, start_Q=0, max_P=5,max_D=5,
+          max_Q=5, m=12, seasonal=True,
+          error_action='warn',trace=True,
+          supress_warnings=True,stepwise=True,
+          random_state=20,n_fits=50)
+ ```
+       
+Using the trained model to forecast the number of airline passengers on the test set resulted in a r^2 value of 0.65 -- this model did a much better job at capturing the trend in the data compared to my first implementation of the ARIMA model.
+
+![test3](https://github.com/mkosaka1/AirPassengers_TimeSeries/blob/master/Images/SecondPrection.jpg)
+
+## Summary
+
+Here we demonstrated the traditional implementation of an ARIMA model compared to the Auto ARIMA model using auto_arima(). While the traditional ARIMA implementation requires one to perform differencing and plotting ACF and PACF plots, the Auto ARIMA model using pmdarima’s auto_arima() function is more efficient in determining the optimal p,d,q values.
+
