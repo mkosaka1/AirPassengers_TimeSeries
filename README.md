@@ -28,7 +28,9 @@ Pmdarima‘s auto_arima function is extremely useful when building an ARIMA mode
 ## Traditional Implementation of an ARIMA Model
 Determining *p,d,q* values by conducting a Dickey-Fuller test, and using ACF/PACF plots resulted in a r^2 value of -1.52. These results indicate that our model does not follow the trend of the data very well.
 
-![test](https://github.com/mkosaka1/AirPassengers_TimeSeries/blob/master/Images/FirstPredictions.jpg)
+<p align="center">
+  <img width="460" height="300" src="https://github.com/mkosaka1/AirPassengers_TimeSeries/blob/master/Images/FirstPredictions.jpg">
+</p>
 
 ## Using pmdarima for Auto ARIMA model
 In the previous method, checking for stationarity, making data stationary if necessary, and determining the values of p and q using the ACF/PACF plots can be time-consuming and less efficient. Using pmdarima’s auto_arima() function makes this task easier for us by eliminating steps 2 and 3 for implementing an ARIMA model. Let’s try it with the current dataset.
@@ -45,7 +47,11 @@ In the previous method, checking for stationarity, making data stationary if nec
        
 Using the trained model to forecast the number of airline passengers on the test set resulted in a r^2 value of 0.65 -- this model did a much better job at capturing the trend in the data compared to my first implementation of the ARIMA model.
 
-![test3](https://github.com/mkosaka1/AirPassengers_TimeSeries/blob/master/Images/SecondPrection.jpg)
+
+<p align="center">
+  <img width="460" height="300" src="https://github.com/mkosaka1/AirPassengers_TimeSeries/blob/master/Images/SecondPrection.jpg">
+</p>
+
 
 ## Summary
 
